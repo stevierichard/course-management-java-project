@@ -1,0 +1,231 @@
+openapi: 3.0.3
+info:
+  title: Api Documentation
+  description: Api Documentation
+  termsOfService: 'urn:tos'
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8080'
+    description: Inferred Url
+tags:
+  - name: student-course-controller
+    description: Student Course Controller
+paths:
+  /studentCourse/courses:
+    get:
+      tags:
+        - student-course-controller
+      summary: getAllCourses
+      operationId: getAllCoursesUsingGET
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - student-course-controller
+      summary: createCourse
+      operationId: createCourseUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Course'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/studentCourse/courses/{courseInstructor}':
+    get:
+      tags:
+        - student-course-controller
+      summary: getCourseByCourseInstructor
+      operationId: getCourseByCourseInstructorUsingGET
+      parameters:
+        - name: courseInstructor
+          in: path
+          description: courseInstructor
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /studentCourse/students:
+    post:
+      tags:
+        - student-course-controller
+      summary: createStudent
+      operationId: createStudentUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Student'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/studentCourse/students/{id}':
+    get:
+      tags:
+        - student-course-controller
+      summary: getStudentById
+      operationId: getStudentByIdUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Student'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - student-course-controller
+      summary: updateStudentById
+      operationId: updateStudentByIdUsingPUT
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - student-course-controller
+      summary: deleteStudentById
+      operationId: deleteStudentByIdUsingDELETE
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+components:
+  schemas:
+    Course:
+      title: Course
+      type: object
+      properties:
+        courseInstructor:
+          type: string
+        courseNumber:
+          type: string
+        courseTitle:
+          type: string
+        id:
+          type: integer
+          format: int32
+        quarter:
+          type: string
+    Student:
+      title: Student
+      type: object
+      properties:
+        course:
+          type: string
+        courseId:
+          type: integer
+          format: int32
+        email:
+          type: string
+        firstName:
+          type: string
+        gpa:
+          type: number
+          format: double
+        id:
+          type: integer
+          format: int32
+        lastName:
+          type: string
